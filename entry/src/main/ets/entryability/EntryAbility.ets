@@ -12,10 +12,11 @@ export default class EntryAbility extends UIAbility {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
   }
 
-  onWindowStageCreate(windowStage: window.WindowStage): void {
+  async onWindowStageCreate(windowStage: window.WindowStage) {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
+    // windowStage.loadContent('pages/RentRoom/RentRoomList', (err) => {
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
@@ -23,6 +24,24 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
     });
+
+    const windowClass = await windowStage.getMainWindow();
+    // 1. 设置全屏
+    windowClass.setWindowLayoutFullScreen(true);
+    // 2. 设置状态栏颜色
+    windowClass.setWindowSystemBarProperties({
+      statusBarContentColor: '#FFFFFF',
+      navigationBarContentColor: '#FFFFFF'
+    })
+    AppStorage.setOrCreate('windowStage',windowStage);
+    // 3. 获取状态栏高度并存储起来
+    const avoidArea = windowClass.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
+    AppStorage.setOrCreate('windowTopHeight', avoidArea.topRect.height);
+    AppStorage.setOrCreate('windowBottomHeight', avoidArea.bottomRect.height);
+    // 4. 获取屏幕宽高并存储起来
+    const properties = windowClass.getWindowProperties()
+    AppStorage.setOrCreate('windowHeight', properties.windowRect.height);
+    AppStorage.setOrCreate('windowWidth', properties.windowRect.width);
   }
 
   onWindowStageDestroy(): void {

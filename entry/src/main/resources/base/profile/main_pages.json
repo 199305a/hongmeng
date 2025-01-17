@@ -1,6 +1,11 @@
 {
   "src": [
     "pages/Index",
-    "pages/Second"
+    "pages/Second",
+    "pages/RentRoom/RentRoomList",
+    "pages/RentRoom/BookRentRoomList",
+    "pages/RentRoom/RentRoomDetail",
+    "pages/Login/LoginPhone",
+    "pages/Login/LoginCode"
   ]
 }

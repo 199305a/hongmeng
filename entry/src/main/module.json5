@@ -9,6 +9,9 @@
       "tablet",
       "2in1"
     ],
+    "requestPermissions":[ // 申请权限
+      { "name" : "ohos.permission.INTERNET" }, // 使用网络
+    ],
     "deliveryWithInstall": true,
     "installationFree": false,
     "pages": "$profile:main_pages",
